@@ -53,4 +53,12 @@ final class CVController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    #[Route('/cv/delete/{id}', name: 'cv.delete', methods: ['GET', 'POST'])]
+    public function delete(CVRepository $repository, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $cv = $repository->findOneBy(['id' => $id]);
+        $entityManager->remove($cv);
+        $entityManager->flush();
+        return $this->redirectToRoute('cv.index');
+    }
 }

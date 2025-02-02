@@ -17,6 +17,9 @@
             <li>{{ projects.description }}</li>
             <li>{{ projects.dateDebut|date('d-m-Y') }} - {{ projects.dateFin|date('d-m-Y') }}</li>
             <li>{{ projects.link }}</li>
+            {% for technologies in projects.technologies %}
+            <li>{{ technologies.name }}</li>
+            {% endfor %}
         </ul>
 
     {% endfor %}

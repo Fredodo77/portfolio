@@ -4,28 +4,19 @@ namespace App\Form;
 
 use App\Entity\Project;
 use App\Entity\Technologies;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class ProjectType extends AbstractType
+class TechnologiesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name')
-            ->add('description')
-            ->add('link')
-            ->add('date_debut', DateType::class, [
-                'widget' => 'single_text',
-            ])
-            ->add('date_fin', DateType::class, [
-                'widget' => 'single_text',
-            ])
-            ->add('technologies', EntityType::class, [
-                'class' => Technologies::class,
+            ->add('project', EntityType::class, [
+                'class' => Project::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])
@@ -35,7 +26,7 @@ class ProjectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Project::class,
+            'data_class' => Technologies::class,
         ]);
     }
 }

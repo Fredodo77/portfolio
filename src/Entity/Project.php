@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,17 @@ class Project
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_fin = null;
+
+    /**
+     * @var Collection<int, Technologies>
+     */
+    #[ORM\ManyToMany(targetEntity: Technologies::class, mappedBy: 'project')]
+    private Collection $technologies;
+
+    public function __construct()
+    {
+        $this->technologies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +103,33 @@ class Project
     public function setDateFin(?\DateTimeInterface $date_fin): static
     {
         $this->date_fin = $date_fin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Technologies>
+     */
+    public function getTechnologies(): Collection
+    {
+        return $this->technologies;
+    }
+
+    public function addTechnology(Technologies $technology): static
+    {
+        if (!$this->technologies->contains($technology)) {
+            $this->technologies->add($technology);
+            $technology->addProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTechnology(Technologies $technology): static
+    {
+        if ($this->technologies->removeElement($technology)) {
+            $technology->removeProject($this);
+        }
 
         return $this;
     }
