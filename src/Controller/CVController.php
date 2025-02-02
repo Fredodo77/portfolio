@@ -38,4 +38,19 @@ final class CVController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    #[Route('/cv/edit/{id}', name: 'cv.edit', methods: ['GET', 'POST'])]
+    public function edit(CVRepository $repository, int $id, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $cv = $repository->findOneBy(['id' => $id]);
+        $form = $this->createForm(CVType::class, $cv);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $cv = $form->getData();
+            $entityManager->flush();
+            return $this->redirectToRoute('cv.index');
+        }
+        return $this->render('cv/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }
