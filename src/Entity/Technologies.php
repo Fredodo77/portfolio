@@ -21,7 +21,7 @@ class Technologies
     /**
      * @var Collection<int, Project>
      */
-    #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'technologies')]
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'technologies')]
     private Collection $project;
 
     public function __construct()
@@ -68,5 +68,9 @@ class Technologies
         $this->project->removeElement($project);
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->name;
     }
 }

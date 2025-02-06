@@ -17,7 +17,7 @@ class TechnologiesType extends AbstractType
             ->add('name')
             ->add('project', EntityType::class, [
                 'class' => Project::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
                 'multiple' => true,
             ])
         ;

@@ -34,7 +34,7 @@ class Project
     /**
      * @var Collection<int, Technologies>
      */
-    #[ORM\ManyToMany(targetEntity: Technologies::class, mappedBy: 'project')]
+    #[ORM\ManyToMany(targetEntity: Technologies::class, inversedBy: 'project')]
     private Collection $technologies;
 
     public function __construct()
@@ -132,5 +132,9 @@ class Project
         }
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

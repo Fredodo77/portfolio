@@ -52,4 +52,12 @@ final class ProjectController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    #[Route('/project/delete/{id}', name: 'project.delete', methods: ['GET'])]
+    public function delete(ProjectRepository $repository, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $project = $repository->findOneBy(['id' => $id]);
+        $entityManager->remove($project);
+        $entityManager->flush();
+        return $this->redirectToRoute('project.index');
+    }
 }
