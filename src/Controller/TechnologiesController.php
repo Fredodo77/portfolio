@@ -37,4 +37,27 @@ final class TechnologiesController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    #[Route('technologies/edit/{id}', name: 'technologies.edit', methods: ['GET', 'POST'])]
+    public function edit(TechnologiesRepository $repository, int $id, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $technologies = $repository->findOneBy(['id' => $id]);
+        $form = $this->createForm(TechnologiesType::class, $technologies);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $technologies = $form->getData();
+            $entityManager->flush();
+            return $this->redirectToRoute('technologies.index');
+        }
+        return $this->render('technologies/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+    #[Route('technologies/delete/{id}', name: 'technologies.delete', methods: ['GET'])]
+    public function delete(TechnologiesRepository $repository, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $technologies = $repository->findOneBy(['id' => $id]);
+        $entityManager->remove($technologies);
+        $entityManager->flush();
+        return $this->redirectToRoute('technologies.index');
+    }
 }

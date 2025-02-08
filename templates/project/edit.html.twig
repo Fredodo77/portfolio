@@ -6,16 +6,19 @@
 
 <div class="example-wrapper">
     <h1>Modifier un projet</h1>
+    
     {{ form_start(form) }}
+    <turbo-frame id="project">
         {{ form_row(form.name) }}
         {{ form_row(form.description) }}
         {{ form_row(form.date_debut) }}
         {{ form_row(form.date_fin) }}
         {{ form_row(form.link) }}
         {{ form_row(form.technologies) }}
-
     <button type="submit" class="btn btn-primary">Modifier</button>
+    </turbo-frame>
     {{ form_end(form) }}
+    
 </div>
 
 {% endblock %}

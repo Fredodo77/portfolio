@@ -9,15 +9,46 @@
 </style>
 
 <div class="example-wrapper">
-    Liste des expériences professionnelles :<br />
-    {% for cvs in cv %}
-        <ul>
-            <li>{{ cvs.job }}</li>
-            <li>{{ cvs.place }}</li>
-            <li>{{ cvs.dateDebut|date('d-m-Y') }} - {{ cvs.dateFin|date('d-m-Y') }}</li>
-            <li>{{ cvs.description }}</li>
-        </ul>
-    {% endfor %}
+    <h1> Liste des expériences professionnelles :</h1>
+    <br />
+    <button type="button" class="btn btn-success">
+        <a href="{{ path ('cv.new')}}">Ajouter une expérience professionnelle</a>
+    </button>
 
+    <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Lieu</th>
+                    <th scope="col">Date de début</th>
+                    <th scope="col">Date de fin</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Modification</th>
+                    <th scope="col">Suppression</th>
+                </tr>
+            </thead>
+
+    {% for cvs in cv %}
+        <tbody>
+                <tr class="table-light">
+                    <td>{{ cvs.job }}</td>
+                    <td>{{ cvs.place }}</td>
+                    <td>{{ cvs.dateDebut|date('d-m-Y') }}</td>
+                    <td>{{ cvs.dateFin|date('d-m-Y') }}</td>
+                    <td>{{ cvs.description }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning">
+                            <a href="{{ path ('cv.edit', {id: cvs.id})}}">Modifier</a>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger">
+                            <a href="{{ path ('cv.delete', {id: cvs.id})}}">Supprimer</a>
+                        </button>
+                    </td>
+
+                </tr>
+    {% endfor %}
+    </table>
 </div>
 {% endblock %}
