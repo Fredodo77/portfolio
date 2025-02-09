@@ -1,5 +1,5 @@
-import { startStimulusApp } from '@symfony/stimulus-bridge';
 import './bootstrap.js';
+import { startStimulusApp } from '@symfony/stimulus-bridge';
 /*
  * Welcome to your app's main JavaScript file!
  *

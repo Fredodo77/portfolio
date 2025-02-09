@@ -8,10 +8,48 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div data-controller="hello">
+   ...
+</div>
 
-    This friendly message is coming from:
-    Hello world !
+<div class="example-wrapper">
+    <h1>Bienvenue sur mon portfolio !</h1>
+    <br />
+    <p>Je suis un développeur web fullstack junior, passionné par le développement web et mobile.</p>
+    <p>Veuillez consulter mes projets et mon CV pour plus d'informations.</p>
+    <br />
+    <button type="button" class="btn btn-success">
+        <a href="{{ path ('project.index')}}">Voir mes projets</a>
+    </button>
+    <button type="button" class="btn btn-success">
+        <a href="{{ path ('cv.index')}}">Voir mon CV</a>
+    </button>
+    <button type="button" class="btn btn-success">
+        <a href="{{ path ('technologies.index')}}">Voir les technologies</a>
+    </button>
+    <br />
+    <br />
+    <p>Vous pouvez me contacter via les réseaux sociaux ou par mail.</p>
+    <br />
+    <button type="button" class="btn btn-success">
+        <a href="#">LinkedIn</a>
+    </button>
+    <button type="button" class="btn btn-success">
+        <a href="#">GitHub</a>
+    </button>
+    <button type="button" class="btn btn-success">
+        <a href="#">Mail</a>
+    </button>
+    <br />
+    <br />
+    <p>Vous pouvez aussi me contacter via le formulaire de contact.</p>
+    <br />
+    <button type="button" class="btn btn-success">
+        <a href="{{ path ('contact.new')}}">Formulaire de contact</a>
+    </button>
+    <br />
+    <br />
+
+    
 </div>
 {% endblock %}
