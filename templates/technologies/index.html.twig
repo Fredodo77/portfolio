@@ -23,10 +23,15 @@
                 <th scope="col">Suppression</th>
             </tr>
         </thead>
-        {% for technologies in technologie %}
         <tbody>
+            
+        {% for technologies in technologie %}
+        
             <tr class="table-light">
-                <td>{{ technologies.name }}</td>
+                <td>
+                    <turbo-frame id="technologies-{{ technologies.id }}">
+                    <a href="{{ path ('technologies.edit', {id: technologies.id})}}">{{ technologies.name }}</a></td>
+                    </turbo-frame>
                 <td>
                     <button type="button" class="btn btn-warning">
                         <a href="{{ path ('technologies.edit', {id: technologies.id})}}">Modifier</a>
@@ -38,8 +43,9 @@
                     </button>
                 </td>
             </tr>
-        </tbody>
         {% endfor %}
+        
+        </tbody>
     </table>
  </div>
 {% endblock %}

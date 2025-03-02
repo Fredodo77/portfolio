@@ -10,11 +10,15 @@
 
 <div class="example-wrapper">
     <h1>Modifier une technologie</h1>
-    {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.project) }}
+    <br />
+    <turbo-frame id="technologies-1">
+    {{ form_start(technologies) }}
+        
+        {{ form_row(technologies.name) }}
+    
     <button type="submit" class="btn btn-primary">Modifier</button>
-    {{ form_end(form) }}
+    {{ form_end(technologies) }}
+
 </div>
 
 {% endblock %}

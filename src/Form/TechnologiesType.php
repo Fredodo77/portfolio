@@ -14,13 +14,8 @@ class TechnologiesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('project', EntityType::class, [
-                'class' => Project::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-            ])
-        ;
+            
+            ->add('name');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

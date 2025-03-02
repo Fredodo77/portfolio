@@ -49,7 +49,7 @@ final class TechnologiesController extends AbstractController
             return $this->redirectToRoute('technologies.index');
         }
         return $this->render('technologies/edit.html.twig', [
-            'form' => $form->createView()
+            'technologies' => $form->createView()
         ]);
     }
     #[Route('technologies/delete/{id}', name: 'technologies.delete', methods: ['GET'])]
