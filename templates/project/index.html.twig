@@ -11,29 +11,30 @@
 <div class="example-wrapper">
     <h1>Liste des projets :</h1>
     <br />
+    {% if is_granted('ROLE_USER') %}
     <button type="button" class="btn btn-success">
         <a href="{{ path ('project.new')}}">Ajouter un projet</a>
     </button>
-    
+    {% endif %}
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">Nom</th>
-                    <th scope="col">Description</th>
                     <th scope="col">Date de début</th>
                     <th scope="col">Date de fin</th>
                     <th scope="col">Technologies</th>
+                    {% if is_granted('ROLE_USER') %}
                     <th scope="col">Modification</th>
                     <th scope="col">Suppression</th>
+                    {% endif %}
                 </tr>
             </thead>
             {% for projects in project %}
             <tbody>
                 <tr class="table-light">
                     <td>
-                      <a href="{{ projects.link }}"> {{ projects.name }}</a>
+                      <a href="{{ path ('project.show', {id: projects.id}) }}"> {{ projects.name }}</a>
                     </td>
-                    <td>{{ projects.description }}</td>
                     <td>{{ projects.dateDebut|date('d-m-Y') }}</td>
                     <td>{{ projects.dateFin|date('d-m-Y') }}</td>
                     <td>
@@ -43,6 +44,7 @@
                             {% endfor %}
                         </ul>
                     </td>
+                    {% if is_granted('ROLE_USER') %}
                     <td>
                         <button type="button" class="btn btn-warning">
                             <a href="{{ path ('project.edit', {id: projects.id})}}">Modifier</a>
@@ -53,6 +55,7 @@
                             <a href="{{ path ('project.delete', {id: projects.id})}}">Supprimer</a>
                         </button>
                     </td>
+                    {% endif %}
                 </tr>
             </tbody>
             {% endfor %}

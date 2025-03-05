@@ -11,10 +11,11 @@
 <div class="example-wrapper">
     <h1> Liste des expériences professionnelles :</h1>
     <br />
+    {% if is_granted('ROLE_USER') %}
     <button type="button" class="btn btn-success">
         <a href="{{ path ('cv.new')}}">Ajouter une expérience professionnelle</a>
     </button>
-
+    {% endif %}
     <table class="table table-hover">
             <thead>
                 <tr>
@@ -22,20 +23,21 @@
                     <th scope="col">Lieu</th>
                     <th scope="col">Date de début</th>
                     <th scope="col">Date de fin</th>
-                    <th scope="col">Description</th>
+                    {% if is_granted('ROLE_USER') %}
                     <th scope="col">Modification</th>
                     <th scope="col">Suppression</th>
+                    {% endif %}
                 </tr>
             </thead>
 
     {% for cvs in cv %}
         <tbody>
                 <tr class="table-light">
-                    <td>{{ cvs.job }}</td>
+                    <td><a href="{{ path ('cv.show', {id: cvs.id})}}" >{{ cvs.job }}</a></td>
                     <td>{{ cvs.place }}</td>
                     <td>{{ cvs.dateDebut|date('d-m-Y') }}</td>
                     <td>{{ cvs.dateFin|date('d-m-Y') }}</td>
-                    <td>{{ cvs.description }}</td>
+                    {% if is_granted('ROLE_USER') %}
                     <td>
                         <button type="button" class="btn btn-warning">
                             <a href="{{ path ('cv.edit', {id: cvs.id})}}">Modifier</a>
@@ -46,7 +48,7 @@
                             <a href="{{ path ('cv.delete', {id: cvs.id})}}">Supprimer</a>
                         </button>
                     </td>
-
+                    {% endif %}
                 </tr>
     {% endfor %}
     </table>

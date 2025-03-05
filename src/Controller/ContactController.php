@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ContactRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'contact.index', methods: ['GET'])]
+    #[isGranted('ROLE_USER')]
     public function index(ContactRepository $repository): Response
     {
         $contact = $repository->findAll();
@@ -39,6 +41,7 @@ final class ContactController extends AbstractController
         ]);
     }
     #[Route('/contact/edit/{id}', name: 'contact.edit', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function edit(ContactRepository $repository, int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $contact = $repository->findOneBy(['id' => $id]);
@@ -54,6 +57,7 @@ final class ContactController extends AbstractController
         ]);
     }
     #[Route('/contact/delete/{id}', name: 'contact.delete', methods: ['GET'])]
+    #[isGranted('ROLE_USER')]
     public function delete(ContactRepository $repository, int $id, EntityManagerInterface $entityManager): RedirectResponse
     {
         $contact = $repository->findOneBy(['id' => $id]);

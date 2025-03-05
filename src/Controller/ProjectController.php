@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ProjectController extends AbstractController
 {
@@ -21,7 +22,16 @@ final class ProjectController extends AbstractController
             'project' => $project,
         ]);
     }
+    #[Route('/project/{id}', name: 'project.show', methods: ['GET'])]
+    public function show(ProjectRepository $repository, int $id): Response
+    {
+        $project = $repository->findOneBy(['id' => $id]);
+        return $this->render('project/show.html.twig', [
+            'project' => $project,
+        ]);
+    }
     #[Route('/project/new', name: 'project.new', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $project = new Project();
@@ -38,6 +48,7 @@ final class ProjectController extends AbstractController
         ]);
     }
     #[Route('/project/edit/{id}', name: 'project.edit', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function edit(ProjectRepository $repository, int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $project = $repository->findOneBy(['id' => $id]);
@@ -53,6 +64,7 @@ final class ProjectController extends AbstractController
         ]);
     }
     #[Route('/project/delete/{id}', name: 'project.delete', methods: ['GET'])]
+    #[isGranted('ROLE_USER')]
     public function delete(ProjectRepository $repository, int $id, EntityManagerInterface $entityManager): Response
     {
         $project = $repository->findOneBy(['id' => $id]);

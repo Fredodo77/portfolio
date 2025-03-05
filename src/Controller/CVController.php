@@ -11,6 +11,7 @@ use App\Entity\CV;
 use App\Form\CVType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class CVController extends AbstractController
 {
@@ -38,7 +39,16 @@ final class CVController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    #[Route('/cv/{id}', name: 'cv.show', methods: ['GET'])]
+    public function show(CVRepository $repository, int $id): Response
+    {
+        $cv = $repository->findOneBy(['id' => $id]);
+        return $this->render('cv/show.html.twig', [
+            'cv' => $cv
+        ]);
+    }
     #[Route('/cv/edit/{id}', name: 'cv.edit', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function edit(CVRepository $repository, int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $cv = $repository->findOneBy(['id' => $id]);
@@ -54,6 +64,7 @@ final class CVController extends AbstractController
         ]);
     }
     #[Route('/cv/delete/{id}', name: 'cv.delete', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function delete(CVRepository $repository, int $id, EntityManagerInterface $entityManager): Response
     {
         $cv = $repository->findOneBy(['id' => $id]);

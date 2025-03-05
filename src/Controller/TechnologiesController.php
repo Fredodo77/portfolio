@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Technologies;
 use App\Form\TechnologiesType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class TechnologiesController extends AbstractController
 {
@@ -21,7 +23,16 @@ final class TechnologiesController extends AbstractController
             'technologie' => $technologies,
         ]);
     }
+    #[Route('/technologies/{id}', name: 'technologies.show', methods: ['GET'])]
+    public function show(TechnologiesRepository $repository, int $id): Response
+    {
+        $technologies = $repository->findOneBy(['id' => $id]);
+        return $this->render('technologies/show.html.twig', [
+            'technologies' => $technologies,
+        ]);
+    }
     #[Route('technologies/new', name: 'technologies.new', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $technologies = new Technologies();
@@ -38,6 +49,7 @@ final class TechnologiesController extends AbstractController
         ]);
     }
     #[Route('technologies/edit/{id}', name: 'technologies.edit', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function edit(TechnologiesRepository $repository, int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $technologies = $repository->findOneBy(['id' => $id]);
@@ -53,6 +65,7 @@ final class TechnologiesController extends AbstractController
         ]);
     }
     #[Route('technologies/delete/{id}', name: 'technologies.delete', methods: ['GET'])]
+    #[isGranted('ROLE_USER')]
     public function delete(TechnologiesRepository $repository, int $id, EntityManagerInterface $entityManager): Response
     {
         $technologies = $repository->findOneBy(['id' => $id]);

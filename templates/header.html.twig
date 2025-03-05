@@ -20,12 +20,21 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ path('technologies.index') }}">Les technologies utilisées</a>
         </li>
+        {% if is_granted('ROLE_USER') %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path('contact.index') }}">Consulter les messages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path('login.out') }}">Se déconnecter !</a>
+        </li>
+        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{{ path('contact.new') }}">Me contacter !</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ path('login.index') }}">Se connecter !</a>
         </li>
+        {% endif %}
       </ul>
     </div>
   </div>
