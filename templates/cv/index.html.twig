@@ -4,7 +4,7 @@
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper { margin: 1em auto; max-width: 1200px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
@@ -16,6 +16,20 @@
         <a href="{{ path ('cv.new')}}">Ajouter une expérience professionnelle</a>
     </button>
     {% endif %}
+    <br />
+    <br />
+    Vous pouvez sélectionner le domaine de votre expérience professionnelle en choisissant sur un des boutons :
+    <br />
+    <button type="button" class="btn btn-info">
+        <a href="{{ path ('cv.index')}}">Tout afficher</a>
+    </button>
+    {% for domaine in domaines %}
+    <button type="button" class="btn btn-info">
+        <a href="#">{{ domaine.nomDomaine }}</a>
+    </button>
+    {% endfor %}
+    <br />
+
     <table class="table table-hover">
             <thead>
                 <tr>
@@ -30,13 +44,13 @@
                 </tr>
             </thead>
 
-    {% for cvs in cv %}
+    {% for cvs in cv|sort((a, b) => b.dateDebut <=> a.dateDebut) %}
         <tbody>
                 <tr class="table-light">
                     <td><a href="{{ path ('cv.show', {id: cvs.id})}}" >{{ cvs.job }}</a></td>
                     <td>{{ cvs.place }}</td>
-                    <td>{{ cvs.dateDebut|date('d-m-Y') }}</td>
-                    <td>{{ cvs.dateFin|date('d-m-Y') }}</td>
+                    <td>{{ cvs.dateDebut|date('d/m/Y') }}</td>
+                    <td>{{ cvs.dateFin|date('d/m/Y') }}</td>
                     {% if is_granted('ROLE_USER') %}
                     <td>
                         <button type="button" class="btn btn-warning">
@@ -52,5 +66,11 @@
                 </tr>
     {% endfor %}
     </table>
+
+    Pour voir mes diplômes obtenus, cliquez sur le bouton ci-dessous :
+    <button type="button" class="btn btn-info">
+        <a href="{{ path ('app_diplome_index')}}">Mes diplômes</a>
+    </button>
+
 </div>
 {% endblock %}

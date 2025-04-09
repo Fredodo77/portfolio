@@ -22,14 +22,6 @@ final class ProjectController extends AbstractController
             'project' => $project,
         ]);
     }
-    #[Route('/project/{id}', name: 'project.show', methods: ['GET'])]
-    public function show(ProjectRepository $repository, int $id): Response
-    {
-        $project = $repository->findOneBy(['id' => $id]);
-        return $this->render('project/show.html.twig', [
-            'project' => $project,
-        ]);
-    }
     #[Route('/project/new', name: 'project.new', methods: ['GET', 'POST'])]
     #[isGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -45,6 +37,14 @@ final class ProjectController extends AbstractController
         }
         return $this->render('project/new.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+    #[Route('/project/{id}', name: 'project.show', methods: ['GET'])]
+    public function show(ProjectRepository $repository, int $id): Response
+    {
+        $project = $repository->findOneBy(['id' => $id]);
+        return $this->render('project/show.html.twig', [
+            'project' => $project,
         ]);
     }
     #[Route('/project/edit/{id}', name: 'project.edit', methods: ['GET', 'POST'])]

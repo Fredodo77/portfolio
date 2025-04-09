@@ -23,14 +23,6 @@ final class TechnologiesController extends AbstractController
             'technologie' => $technologies,
         ]);
     }
-    #[Route('/technologies/{id}', name: 'technologies.show', methods: ['GET'])]
-    public function show(TechnologiesRepository $repository, int $id): Response
-    {
-        $technologies = $repository->findOneBy(['id' => $id]);
-        return $this->render('technologies/show.html.twig', [
-            'technologies' => $technologies,
-        ]);
-    }
     #[Route('technologies/new', name: 'technologies.new', methods: ['GET', 'POST'])]
     #[isGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -46,6 +38,14 @@ final class TechnologiesController extends AbstractController
         }
         return $this->render('technologies/new.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+    #[Route('/technologies/{id}', name: 'technologies.show', methods: ['GET'])]
+    public function show(TechnologiesRepository $repository, int $id): Response
+    {
+        $technologies = $repository->findOneBy(['id' => $id]);
+        return $this->render('technologies/show.html.twig', [
+            'technologies' => $technologies,
         ]);
     }
     #[Route('technologies/edit/{id}', name: 'technologies.edit', methods: ['GET', 'POST'])]

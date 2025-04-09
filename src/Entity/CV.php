@@ -29,6 +29,9 @@ class CV
     #[ORM\Column(length: 255)]
     private ?string $place = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cVs')]
+    private ?Domaine $domaine = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,5 +95,21 @@ class CV
         $this->place = $place;
 
         return $this;
+    }
+
+    public function getDomaine(): ?Domaine
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(?Domaine $domaine): static
+    {
+        $this->domaine = $domaine;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->job;
     }
 }

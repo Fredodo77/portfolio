@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\CV;
 use App\Form\CVType;
+use App\Repository\DomaineRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -16,14 +17,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class CVController extends AbstractController
 {
     #[Route('/cv', name: 'cv.index', methods: ['GET'])]
-    public function index(CVRepository $repository): Response
+    public function index(CVRepository $repository, DomaineRepository $domaine): Response
     {
         $cv = $repository->findAll();
         return $this->render('cv/index.html.twig', [
-            'cv' => $cv
+            'cv' => $cv,
+            'domaines' => $domaine->findAll()
         ]);
     }
     #[Route('/cv/new', name: 'cv.new', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $cv = new CV();

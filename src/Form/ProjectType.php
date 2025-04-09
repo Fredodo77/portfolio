@@ -9,15 +9,20 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('id')
             ->add('name')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'row_attr' => ['class' => 'text-editor'],
+                'attr' => [
+                    'style' => 'width: 900px; height: 200px;'
+                ],
+            ])
             ->add('link')
             ->add('date_debut', DateType::class, [
                 'widget' => 'single_text',
